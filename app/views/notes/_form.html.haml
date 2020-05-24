@@ -1,0 +1,30 @@
+= javascript_pack_tag 'note'
+
+= form_for @note do |f|
+  - if @note.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@note.errors.count, "error")} prohibited this note from being saved:"
+      %ul
+        - @note.errors.full_messages.each do |message|
+          %li= message
+
+  = f.hidden_field :content
+  .field
+    = f.text_field :title
+  %menu#toolbar
+    %a#none_command(href="#") None
+    %a#text_command(href="#") Text
+    %a#draw_command(href="#") Draw
+  %svg#drawing{viewbox: "0 0 720 480", xmlns: "http://www.w3.org/2000/svg"}
+    :css
+      text.regular { font: 13px sans-serif; }
+      tspan.italic { font-style: italic; }
+      tspan.bold { font-weight: 700; }
+      tspan.strike { text-decoration-line: line-through; }
+      tspan.title { font: 1.2em sans-serif; font-weight: 700; }
+    = @note.content.html_safe unless @note.new?
+  .field
+    = f.rich_text_area :description_rt
+  .field
+  .actions
+    = f.submit 'Save'

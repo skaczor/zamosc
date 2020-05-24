@@ -1,0 +1,16 @@
+= form_for @day do |f|
+  - if @day.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@day.errors.count, "error")} prohibited this day from being saved:"
+      %ul
+        - @day.errors.full_messages.each do |message|
+          %li= message
+
+  .field
+    = f.label :on
+    = f.date_select :on
+  .field
+    = f.label :schedule
+    = f.text_area :schedule, cols: 80, rows: 20
+  .actions
+    = f.submit 'Save'

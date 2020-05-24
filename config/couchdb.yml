@@ -1,0 +1,17 @@
+default: &default
+  split_design_documents_per_view: true # optional, default is false
+  digest_view_names: true # optional, default is false
+  default_language: :erlang # optional, default is javascript
+
+development:
+  <<: *default
+  database: http://zamoyski:Zamosc@localhost:5984/zamoyska_development
+test:
+  <<: *default
+  database: zamoyska_test
+production:
+  <<: *default
+  database: <%= ENV['DB_NAME'] %>
+#  additional_databases:
+#    db1: db1_production
+#    db2: https://db2.example.com/db

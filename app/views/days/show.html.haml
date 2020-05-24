@@ -1,0 +1,24 @@
+%p#notice= notice
+
+%p
+  %b Date:
+  = @day.on
+
+%h2 Tasks
+
+%h2 Schedule
+%p
+  %pre= @day.schedule
+
+%h2 Notes
+= link_to 'New Note', new_note_path
+%dl
+- @notes.each do |note|
+  %dt
+    = time_tag note.created_at.localtime, note.created_at.strftime('%R')
+  %dd
+    = link_to note.title, note
+%hr
+= link_to 'Edit', edit_day_path(@day)
+\|
+= link_to 'Back', root_path

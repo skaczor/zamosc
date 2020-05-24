@@ -1,0 +1,14 @@
+%p#notice= notice
+
+%p
+  %b Title:
+  = @note.title
+%p
+  %b Description:
+  = @note.description_rt
+
+%svg#preview{viewbox: "0 0 720 480", xmlns: "http://www.w3.org/2000/svg"}= @note.content.html_safe
+
+= link_to 'Edit', edit_note_path(@note)
+\|
+= link_to 'Back', root_path

@@ -1,0 +1,25 @@
+%h1 Listing days for #{@period.to_s.titleize}
+
+%table
+  %thead
+    %tr
+      %th On
+      %th Schedule
+      %th Notes
+      %th
+      %th
+      %th
+
+  %tbody
+    - @days.each do |day|
+      %tr
+        %td= day.on
+        %td= day.schedule
+        %td TODO links
+        %td= link_to 'Show', date_path(day.on.year, day.on.month, day.on.day)
+        %td= link_to 'Edit', edit_day_path(day)
+        %td= link_to 'Destroy', day, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Day', new_day_path

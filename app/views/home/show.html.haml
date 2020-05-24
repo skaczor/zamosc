@@ -1,0 +1,18 @@
+%h1 Zamość Personal Information Manager
+%p Welcome <user> on this beautiful #{Time.now.strftime('%A')} of #{Time.now.strftime('%B')}
+
+%h2 Daily Entries
+- today = Date.today
+%ul
+  %li= link_to 'Today', date_path(today.year, today.month, today.day) 
+  %li This Week
+  %li= link_to 'This Month', month_path(today.year, today.month)
+  %li This Quarter
+  %li= link_to 'This Year', year_path(today.year)
+
+%h2 Notes
+%ul
+  - @notes.each do |note|
+    %li= link_to note.title, note
+
+= link_to 'New', new_note_path
