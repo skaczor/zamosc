@@ -22,6 +22,7 @@
       tspan.bold { font-weight: 700; }
       tspan.strike { text-decoration-line: line-through; }
       tspan.title { font: 1.2em sans-serif; font-weight: 700; }
+      a { text-decoration-line: underline; }
     = @note.content.html_safe unless @note.new?
   .field
     = f.rich_text_area :description_rt

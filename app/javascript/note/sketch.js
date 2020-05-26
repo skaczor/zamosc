@@ -63,7 +63,14 @@ function upHandler(event) {
       textBox.style.left = `${event.x}px`;
       textBox.style.top = `${event.y}px`;
       document.body.append(textBox);
-      textBox.addEventListener('blur', event => transferTextToDrawing(event.target, drawing));
+      const toolbar = textBox.previousSibling;
+      textBox.addEventListener('blur', function(event) {
+        if (toolbar.querySelector(".trix-dialog.trix-active") != null) {
+          console.log("trix editor dialog is active");
+        } else {
+          transferTextToDrawing(event.target, drawing)
+        }
+      });
       const editor = textBox.editor;
       // Calculate the offset needed to position the first letter at the cursor
       editor.insertString(" ");
@@ -75,7 +82,6 @@ function upHandler(event) {
       editor.setSelectedRange([0,1]);
       editor.deleteInDirection("forward");
       // Position the toolbar
-      const toolbar = textBox.previousSibling;
       toolbar.style.left = textBox.style.left;
       toolbar.style.top = `${event.y - offsety - 32}px`;
     }
@@ -197,6 +203,13 @@ function renderPiece(piece, target, offset) {
     return;
   }
 
+  if (attributes.href) {
+    let a = document.createElementNS(SVGNS, "a");
+    a.setAttributeNS(null, "href", attributes.href);
+    target.append(a);
+    target = a;
+  }
+
   let text = piece.string;
   while (text.length > 0) {
     if (text[0] === "\n") {
@@ -225,8 +238,8 @@ function renderPiece(piece, target, offset) {
 function renderLine(line, target, attributes, left, offset, width) {
   do {
     const tspan = document.createElementNS(SVGNS, "tspan");
-    tspan.setAttributeNS(null, "x", left + offset.x);
-    tspan.setAttributeNS(null, "dy", offset.y);
+    tspan.setAttributeNS(null, "x", left + offset.x); // Eventually, don't specify x unless necessary
+    tspan.setAttributeNS(null, "dy", offset.y); // dy of zero is unnecessary
     if (attributes.italic)
       tspan.classList.add('italic');
     if (attributes.bold)
@@ -256,9 +269,11 @@ function renderLine(line, target, attributes, left, offset, width) {
       offset.x = 0;
       offset.y = 19.5;
     } else {
-      line = "";
       offset.x += tspan.getComputedTextLength();
+      if (line[length - 1] === ' ')
+        offset.x += 4; // Is this a bug that ending spaces are not included in computed text length?
       offset.y = 0;
+      line = "";
     }
   } while (line.length > 0)
 }
