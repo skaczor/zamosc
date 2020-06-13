@@ -31,6 +31,9 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # CouchDB for storage
 gem 'couch_potato', git: 'https://github.com/langalex/couch_potato'
 
+# Used to communicate with query server
+gem 'rest-client'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

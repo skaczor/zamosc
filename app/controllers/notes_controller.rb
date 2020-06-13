@@ -7,6 +7,18 @@ class NotesController < ApplicationController
     @notes = CouchPotato.database.view Note.all(descending: true)
   end
 
+  def search
+    view, keyword = if params[:title]
+                      [:by_title, params[:title]]
+                    elsif params[:description]
+                      [:by_description, params[:description]]
+                    elsif params[:contents]
+                      [:by_content, params[:content]]
+                    end
+    @notes = Note.search(view, keyword) if view
+  end
+  
+
   # GET /notes/1
   # GET /notes/1.json
   def show

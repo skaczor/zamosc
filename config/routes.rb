@@ -7,5 +7,9 @@ Rails.application.routes.draw do
   get 'home/show'
   root to: 'home#show'
 
-  resources :notes
+  resources :notes do
+    collection do
+      get :search
+    end
+  end
 end
