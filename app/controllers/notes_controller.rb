@@ -12,7 +12,7 @@ class NotesController < ApplicationController
                       [:by_title, params[:title]]
                     elsif params[:description]
                       [:by_description, params[:description]]
-                    elsif params[:contents]
+                    elsif params[:content]
                       [:by_content, params[:content]]
                     end
     @notes = Note.search(view, keyword) if view
