@@ -18,8 +18,12 @@ class Note
     search_server.path = "/local/#{couch_server.path[1..-1]}/_design/note/"
     search_server.port = 5985
     @search_server = RestClient::Resource.new(search_server)
+    Rails.logger.info "search: #{@search_server[view]} q: #{keyword}"
     data = JSON.parse(@search_server[view].get(params: {q: keyword, stale: :ok}))
     data['rows'].map { |r| CouchPotato.database.load_document(r['id']) }
+  rescue RestClient::BadRequest => e
+    Rails.logger.error "#{e.message} response: #{e.response}"
+    raise
   end
 
   def save_rt
